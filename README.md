@@ -27,7 +27,7 @@ Please complete the steps below, committing your changes at the end of each step
 Refresh the price displayed every five seconds, using the API endpoint details below.
 
 ```bash
-$ curl http://34.117.120.204/api/v1/fx/ETHUSD/ohlc | json_pp
+$ curl https://dev.ebitlabs.io/api/v1/fx/ETHUSD/ohlc | json_pp
 
 {
    "close" : "1937.06",
