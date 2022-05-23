@@ -2,6 +2,7 @@ import { default as React, useEffect, useState } from "react";
 
 function App() {
     const [currentUSDRate, setCurrentUSDRate] = useState<number>(0)
+    const [timeStamp, setTimeStamp] = useState<number>(0)
 
     useEffect(() => {
         const timer = setInterval(function refresh() {
@@ -13,13 +14,17 @@ function App() {
         }
     }, [])
 
+    const getDecimalPart = () => {
+        const decimalPart = (currentUSDRate - Math.floor(currentUSDRate)).toFixed(2)
+        return decimalPart.slice(2)
+    }
+
     const getCurrentRate = async(pair: string) => {
         try {
-            let response = await fetch(`https://dev.ebitlabs.io/api/v1/fx/${pair}`)
+            let response = await fetch(`https://ebitlabs-frontend-exercise.deno.dev/api/v1/fx/${pair}/ohlc`)
             let data = await response.json()
             setCurrentUSDRate(data.close)
-            console.log(data.close)
-            
+            setTimeStamp(data.endTime.seconds*1000 + data.endTime.microseconds/1000)        
         } catch (error) {
             console.error(error)
         }
@@ -46,9 +51,14 @@ function App() {
                   <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">
                     ETH/USD
                   </dt>
-                  <dd className="order-1 text-5xl font-extrabold text-gray-500">
-                    {`$${Math.floor(currentUSDRate)}`}<span className="text-2xl">.{currentUSDRate.toString().split(".")[1]}</span>
-                  </dd>
+                  <div className="container">
+                    <dd className="order-1 text-5xl font-extrabold text-gray-500">
+                        {`$${Math.floor(currentUSDRate)}`}<span className="text-2xl">.{getDecimalPart()}</span>
+                    </dd>
+                    <div className="tooltip">
+                        <div className="tooltip-text">{new Date(timeStamp).toISOString()}</div>
+                    </div>
+                  </div>
                 </div>
               </dl>  : "Loading..."}
             </div>
