@@ -86,7 +86,7 @@ function Card(props: CardProps) {
   }
 
   return showRate ? (
-    <dl className="w-1/3 mx-auto bg-white rounded-lg shadow-lg">
+    <dl className="min-w-fit mx-auto bg-white rounded-lg shadow-lg">
       <div className="flex flex-col p-6 text-center border-t border-gray-100">
         <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">
           {props.pair}
