@@ -18,7 +18,7 @@ function App() {
           <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto grid grid-flow-row md:grid-flow-col">
               <Card pair="ETH/USD"/>
-              <Card pair="ETH/GBP"/>
+              {/* <Card pair="ETH/GBP"/> */}
             </div>
           </div>
         </div>

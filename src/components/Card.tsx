@@ -2,7 +2,7 @@ import { default as React, useEffect, useState } from "react"
 
 export type CardProps = {
   pair: string
-};
+}
 
 function Card(props: CardProps) {
   const [currentPrice, setCurrentPrice] = useState<number>(0)
@@ -17,31 +17,36 @@ function Card(props: CardProps) {
     getCurrentRate(pair)
     setTimeout(() => {
       setTick(tick + 1)
-    }, 5000);
-  }, [tick]);
+    }, 20000)
+  }, [tick])
 
   const getDifference = (newValue: number) => {
     const newDecimalString = getDecimalPart(newValue)
     const oldDecimalString = getDecimalPart(currentPrice)
-    const difference = (newValue - currentPrice).toFixed(2);
-    setPriceDifference(parseFloat(difference));
-    if (Math.abs(parseFloat(difference)) < 1) {
+    const difference = (newValue - currentPrice).toFixed(2)
+    setPriceDifference(parseFloat(difference))
+    if (integerSlice < 4) {
+        console.log("diff: ", Math.abs(parseFloat(difference)))
         if (newDecimalString[0] !== oldDecimalString[0]){
+            console.log(newDecimalString)
             setDecimalSlice(0)
         } else if (newDecimalString[1] !== oldDecimalString[1]) {
+            console.log(newDecimalString)
             setDecimalSlice(1)
-        } else {setDecimalSlice(2)}
-
+        } else {
+            console.log(newDecimalString)
+            setDecimalSlice(2)
+        }
     }
-  };
+  }
 
   const getDecimalPart = (price: number) => {
-    const decimalPart = (price - Math.floor(price)).toFixed(2);
-    return decimalPart.slice(2);
+    const decimalPart = (price - Math.floor(price)).toFixed(2)
+    return decimalPart.slice(2)
   };
 
   const differencePaint =
-    priceDifference > 0 ? "green" : priceDifference < 0 ? "red" : "gray";
+    priceDifference > 0 ? "green" : priceDifference < 0 ? "red" : "gray"
 
   const getCurrentRate = async (pair: string) => {
     try {
@@ -50,7 +55,6 @@ function Card(props: CardProps) {
       )
       let data = await response.json()
       let newValue = await data.close
-      console.log(newValue)
       formatValues(newValue)
       getDifference(newValue)
       setCurrentPrice(newValue)
@@ -77,7 +81,6 @@ function Card(props: CardProps) {
 
     for (const [i, elm] of newIntString.split("").entries()) {
       if (elm !== oldIntString[i]) {
-        console.log(i)
         setIntegerSlice(i)
         setDecimalSlice(0)
         break
