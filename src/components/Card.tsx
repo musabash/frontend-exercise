@@ -25,7 +25,7 @@ function Card(props: CardProps) {
     const oldDecimalString = getDecimalPart(currentPrice)
     const difference = (newValue - currentPrice).toFixed(2)
     setPriceDifference(parseFloat(difference))
-    if (integerSlice < 4) {
+    if (integerSlice === Math.floor(currentPrice).toString().length) {
         console.log("diff: ", Math.abs(parseFloat(difference)))
         if (newDecimalString[0] !== oldDecimalString[0]){
             console.log(newDecimalString)
