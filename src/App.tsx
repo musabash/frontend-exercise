@@ -1,36 +1,7 @@
-import { default as React, useEffect, useState } from "react";
+import { default as React } from "react";
+import Card from "./components/Card";
 
 function App() {
-    const [currentUSDRate, setCurrentUSDRate] = useState<number>(0)
-    const [timeStamp, setTimeStamp] = useState<number>(0)
-
-    useEffect(() => {
-        const timer = setInterval(function refresh() {
-            getCurrentRate("ETHUSD")
-            return refresh
-        }(), 5000)
-        return () => {
-            clearInterval(timer)
-        }
-    }, [])
-
-    const getDecimalPart = () => {
-        const decimalPart = (currentUSDRate - Math.floor(currentUSDRate)).toFixed(2)
-        return decimalPart.slice(2)
-    }
-
-    const getCurrentRate = async(pair: string) => {
-        try {
-            let response = await fetch(`https://ebitlabs-frontend-exercise.deno.dev/api/v1/fx/${pair}/ohlc`)
-            let data = await response.json()
-            setCurrentUSDRate(data.close)
-            setTimeStamp(data.endTime.seconds*1000 + data.endTime.microseconds/1000)        
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    const showRate = currentUSDRate && currentUSDRate !== 0
 
   return (
     <div className="pt-12 bg-gray-50 sm:pt-16">
@@ -45,22 +16,8 @@ function App() {
         <div className="relative">
           <div className="absolute inset-0 h-1/2 bg-gray-50" />
           <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-              {showRate ? <dl className="w-1/3 mx-auto bg-white rounded-lg shadow-lg">
-                <div className="flex flex-col p-6 text-center border-t border-gray-100">
-                  <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">
-                    ETH/USD
-                  </dt>
-                  <div className="container">
-                    <dd className="order-1 text-5xl font-extrabold text-gray-500">
-                        {`$${Math.floor(currentUSDRate)}`}<span className="text-2xl">.{getDecimalPart()}</span>
-                    </dd>
-                    <div className="tooltip">
-                        <div className="tooltip-text">{new Date(timeStamp).toISOString()}</div>
-                    </div>
-                  </div>
-                </div>
-              </dl>  : "Loading..."}
+            <div className="max-w-4xl mx-auto flex flex-wrap">
+              <Card pair="ETH/USD"/>
             </div>
           </div>
         </div>

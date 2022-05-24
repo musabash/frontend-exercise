@@ -6,6 +6,10 @@
     --is-visible: hidden;
 }
 
+.container {
+    position: relative;
+}
+
 .container:hover {
     --is-visible: visible;
 }
@@ -13,8 +17,8 @@
 .tooltip {
     position: absolute;
     visibility: var(--is-visible);
-    left: 40%;
-    top: 50%;
+    left: 20%;
+    top: 80%;
     filter: drop-shadow(2px 2px 3px rgba(242, 242, 242, 0.5));
 }
 
